@@ -7,11 +7,17 @@ import diningTables from '../Assets/dining-tables.png'
 import officeFurniture from '../Assets/office-furniture.png'
 import wardrobe from '../Assets/wardrobe.png'
 import heroImg from '../Assets/hero-img.png'
+import sample1 from '../Assets/Sample 1.jpg'
+import sample2 from '../Assets/Sample 2.jpg'
+import sample3 from '../Assets/Sample 3.jpg'
+import sample4 from '../Assets/Sample 4.jpg'
+import sample5 from '../Assets/Sample 5.jpg'
 
 // Edit these. Leave phone/email empty until confirmed; buttons stay inactive until set.
 // Phone: digits with country code, e.g. "919876543210".
 const B = { name: 'Gurukrupa Furniture', city: 'Vadodara', phone: '919724516312', email: 'mohinanirishi7@gmail.com', address: 'Shop no.10, Kubereshwar Compund nr Vasvani Estate, suvez Pumping road, Road, Gajarawadi, Vadodara, Gujarat 390004', hours: 'Monday to Saturday 9:00 AM to 6:00 PM (Sunday Closed)' }
 const digits = B.phone.replace(/\D/g, '')
+const apiBaseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 const TYPES = ['Retail furniture', 'Custom home furnishing', 'Bulk / mass production', 'Other']
 
 const NAV = [['home', 'Home'], ['furniture', 'Furniture'], ['custom', 'Custom Orders'], ['manufacturing', 'Manufacturing'], ['about', 'About'], ['contact', 'Contact']]
@@ -36,8 +42,8 @@ function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   return <Tag ref={ref} className={`reveal ${on ? 'in' : ''} ${className}`} {...rest}>{children}</Tag>
 }
 
-const Photo = ({ label, className = '', showLabel = true }) => {
-  const image =
+const Photo = ({ label, className = '', showLabel = true, image: imageOverride }) => {
+  const image = imageOverride || (
     /furniture or workshop/i.test(label)
       ? heroImg
       : /mandir|pooja/i.test(label)
@@ -53,6 +59,7 @@ const Photo = ({ label, className = '', showLabel = true }) => {
                 : /bed/i.test(label)
                   ? bedroom
                   : livingRoom
+  )
 
   return (
     <div className={`photo ${className}`}>
@@ -93,7 +100,7 @@ function Header({ pickType }) {
 }
 
 function Footer({ type, setType }) {
-  const empty = { name: '', phone: '', email: '', location: '', message: '', referenceLink: '', website: '' }
+  const empty = { name: '', phone: '', email: '', location: '', message: '', referenceLink: '', hpField: '' }
   const [f, setF] = useState(empty)
   const [errs, setErrs] = useState({})
   const [status, setStatus] = useState('idle')
@@ -101,7 +108,7 @@ function Footer({ type, setType }) {
   const submit = async (e) => {
     e.preventDefault(); setStatus('sending'); setErrs({})
     try {
-      const r = await fetch('/api/enquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, type }) })
+      const r = await fetch(`${apiBaseUrl}/api/enquiries`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, type }) })
       const d = await r.json().catch(() => ({}))
       if (r.ok) { setStatus('success'); setF(empty); return }
       setErrs(d.errors || {}); setStatus(d.errors ? 'idle' : 'error')
@@ -145,7 +152,7 @@ function Footer({ type, setType }) {
             <textarea rows="4" value={f.message} onChange={set('message')} maxLength="2000" />
           </label>
           <Field k="referenceLink" label="Reference photo link (optional)" err={errs.referenceLink} type="url" />
-          <input className="hp" tabIndex="-1" autoComplete="off" aria-hidden="true" value={f.website} onChange={set('website')} name="website" />
+          <input className="hp" tabIndex="-1" autoComplete="off" aria-hidden="true" value={f.hpField} onChange={set('hpField')} name="hpField" />
           <button className="btn light" disabled={status === 'sending'}>{status === 'sending' ? 'Sending…' : 'Send enquiry'}</button>
           <div role="status" aria-live="polite">
             {status === 'success' && <p className="ok">Thank you. We have your enquiry and will contact you soon.</p>}
@@ -242,7 +249,13 @@ export default function App() {
             <Reveal as="h2">Selected work</Reveal>
             <Reveal as="p" className="lead">These are sample images. Replace them with photos of your own work.</Reveal>
             <Reveal className="gallery">
-              {['Sample 1', 'Sample 2', 'Sample 3', 'Sample 4'].map((l) => <Photo key={l} label={l} />)}
+              {[
+                ['Sample 1', sample1],
+                ['Sample 2', sample2],
+                ['Sample 3', sample3],
+                ['Sample 4', sample4],
+                ['Sample 5', sample5],
+              ].map(([label, image]) => <Photo key={label} label={label} image={image} />)}
             </Reveal>
           </div>
         </section>

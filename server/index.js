@@ -32,7 +32,12 @@ const Enquiry = mongoose.model(
 
 const app = express()
 app.use(express.json({ limit: '20kb' }))
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }))
+const clientOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
+  : ['http://localhost:5173']
+app.use(cors({ origin: clientOrigins }))
+
+app.get('/api/health', (_req, res) => res.json({ ok: true }))
 
 app.post(
   '/api/enquiries',
@@ -71,6 +76,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use((_req, res) => res.sendFile(path.join(dist, 'index.html')))
 }
 
-await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/furniture')
+const mongoUri = process.env.MONGODB_URI || (
+  process.env.NODE_ENV === 'production' ? '' : 'mongodb://127.0.0.1:27017/furniture'
+)
+if (!mongoUri) throw new Error('MONGODB_URI must be set in production.')
+await mongoose.connect(mongoUri)
 console.log('Connected to:', mongoose.connection.host, '| database:', mongoose.connection.name)
 app.listen(process.env.PORT || 5000, () => console.log('API ready'))
