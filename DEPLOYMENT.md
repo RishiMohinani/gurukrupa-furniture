@@ -1,30 +1,32 @@
 # Deployment
 
-The frontend is deployed to Vercel and the API to Heroku. Keep the Heroku app
-root at the repository root so its `Procfile` and `heroku-postbuild` script run.
+Deploy the frontend to Vercel and the API as a Render Web Service.
 
 ## Vercel frontend
 
 1. Import this repository into Vercel and set **Root Directory** to `client`.
-2. Use the Vite defaults (`npm run build`, output directory `dist`).
-3. Set `VITE_API_URL` to the Heroku app's base URL, for example
-   `https://your-app-name.herokuapp.com` (no trailing slash).
-4. Deploy, then copy the Vercel production URL for the API configuration below.
+2. Use the Vite defaults: build command `npm run build`, output directory `dist`.
+3. Deploy once and copy the Vercel production URL.
 
-## Heroku API
+## Render API
 
-1. Create a Heroku app for this repository and deploy from the repository root.
-   The root `Procfile` starts the API; `heroku-postbuild` installs the server
-   dependencies. The frontend is built and deployed separately by Vercel.
-2. Set these Config Vars in Heroku:
+1. Create a **Web Service** from this repository.
+2. Set **Root Directory** to `server`, **Runtime** to Node, **Build Command** to
+   `npm ci --omit=dev`, and **Start Command** to `npm start`.
+3. Add these environment variables in Render:
    - `MONGODB_URI`: the production MongoDB connection string.
-   - `CLIENT_ORIGIN`: the exact Vercel production origin, such as
-     `https://your-project.vercel.app`. Separate multiple allowed origins with
-     commas if needed.
+   - `CLIENT_ORIGIN`: the exact Vercel production origin, e.g.
+     `https://your-project.vercel.app`. Separate multiple origins with commas.
    - `NODE_ENV`: `production`.
-3. Confirm `https://your-app-name.herokuapp.com/api/health` returns
-   `{"ok":true}`.
+4. Deploy and confirm `https://your-render-service.onrender.com/api/health`
+   returns `{"ok":true}`. Render provides the `PORT` variable automatically.
 
-After changing `VITE_API_URL`, redeploy the Vercel project because Vite embeds
-that value at build time. For local server development, copy
-`server/.env.example` to `server/.env`.
+## Connect Vercel to Render
+
+In Vercel project settings, add `VITE_API_URL` with the Render service's base
+URL, e.g. `https://your-render-service.onrender.com` (no trailing slash). Apply
+it to Production and redeploy; Vite embeds this value at build time.
+
+Do not commit `server/.env` or paste its secrets into source files. Set
+production secrets in Render's environment settings. For local development,
+copy `server/.env.example` to `server/.env`.

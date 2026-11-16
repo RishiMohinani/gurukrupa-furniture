@@ -8,5 +8,5 @@
    Open `http://localhost:5173`; Vite proxies `/api` requests to the server.
 4. Run `npm run build` to create the production frontend in `client/dist`.
 
-For separate Vercel and Heroku deployment instructions, see
+For separate Vercel and Render deployment instructions, see
 [DEPLOYMENT.md](./DEPLOYMENT.md).
