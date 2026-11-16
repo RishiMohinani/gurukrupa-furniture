@@ -70,12 +70,6 @@ app.post(
   }
 )
 
-if (process.env.NODE_ENV === 'production') {
-  const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), '../client/dist')
-  app.use(express.static(dist))
-  app.use((_req, res) => res.sendFile(path.join(dist, 'index.html')))
-}
-
 const mongoUri = process.env.MONGODB_URI || (
   process.env.NODE_ENV === 'production' ? '' : 'mongodb://127.0.0.1:27017/furniture'
 )

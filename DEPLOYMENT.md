@@ -20,6 +20,8 @@ Deploy the frontend to Vercel and the API as a Render Web Service.
    - `NODE_ENV`: `production`.
 4. Deploy and confirm `https://your-render-service.onrender.com/api/health`
    returns `{"ok":true}`. Render provides the `PORT` variable automatically.
+   The Render service is API-only, so its root URL may return 404; the website
+   remains served by Vercel.
 
 ## Connect Vercel to Render
 
