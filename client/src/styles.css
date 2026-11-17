@@ -71,3 +71,4 @@ input[aria-invalid=true],select[aria-invalid=true]{border-color:#ff9f8f}
  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
  .reveal,.hero-in{opacity:1;transform:none}.photo:hover{transform:none}
 }
+.story p+p{margin-top:1rem}

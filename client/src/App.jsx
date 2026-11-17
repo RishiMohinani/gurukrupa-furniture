@@ -253,8 +253,11 @@ export default function App() {
 
         <section id="about" className="sec">
           <Reveal className="wrap two">
-            <h2>About our family business</h2>
-            <div><p>[ADD FAMILY AND BUSINESS STORY: who started it, how it grew, what you care about when making furniture.]</p></div>
+            <h2>About {B.name}</h2>
+            <div className="story">
+              <p>{B.name}’s story began in the 1990s in Vadodara. Known to generations of local customers as “Ram Bhai Tipoi Wala,” our business built its legacy around table tops and furniture. With more than 30 years of experience, we have grown to offer home design, custom furniture and interior design services in Vadodara.</p>
+              <p>Today, we help customers furnish their homes with designs tailored to their spaces and requirements. From individual furniture pieces to customised interiors, we bring decades of local experience to every project.</p>
+            </div>
           </Reveal>
         </section>
 
