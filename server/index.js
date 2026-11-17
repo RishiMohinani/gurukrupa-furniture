@@ -112,4 +112,6 @@ const mongoUri = process.env.MONGODB_URI || (
 if (!mongoUri) throw new Error('MONGODB_URI must be set in production.')
 await mongoose.connect(mongoUri)
 console.log('Connected to:', mongoose.connection.host, '| database:', mongoose.connection.name)
+console.log('Email notifications:', process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL
+  ? 'ON' : 'OFF (set RESEND_API_KEY and NOTIFY_EMAIL to enable)')
 app.listen(process.env.PORT || 5000, () => console.log('API ready'))
