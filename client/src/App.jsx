@@ -12,10 +12,11 @@ import sofaSet from '../Assets/Sofa-set.webp'
 import bedroomDesign from '../Assets/Bedroom-design.webp'
 import kitchenDesign from '../Assets/kitchen-design.webp'
 import mandirDesign from '../Assets/mandir-design.webp'
+import { SERVICE_PAGES } from './services.js'
 
 // Edit these. Leave phone/email empty until confirmed; buttons stay inactive until set.
 // Phone: digits with country code, e.g. "919876543210".
-const B = { name: 'Gurukrupa Furniture', city: 'Vadodara', phone: '919724516312', email: 'mohinanirishi7@gmail.com', address: 'Shop No. 10, Kubereshwar Compound, near Vasvani Estate, Suvez Pumping Road, Gajarawadi, Vadodara, Gujarat 390004', hours: 'Monday to Saturday 9:00 AM to 6:00 PM (Sunday Closed)' }
+export const B = { name: 'Gurukrupa Furniture', city: 'Vadodara', phone: '919724516312', email: 'mohinanirishi7@gmail.com', address: 'Shop No. 10, Kubereshwar Compound, near Vasvani Estate, Suvez Pumping Road, Gajarawadi, Vadodara, Gujarat 390004', hours: 'Monday to Saturday 9:00 AM to 6:00 PM (Sunday Closed)' }
 const digits = B.phone.replace(/\D/g, '')
 const apiBaseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 const TYPES = ['Retail furniture', 'Custom home furnishing', 'Bulk / mass production', 'Other']
@@ -26,8 +27,9 @@ const SERVICES = [
   ['Custom home furnishing', 'Tell us the room and the style you want, and we will discuss what can be made.', 'Custom home furnishing', 'Plan my home'],
   ['Bulk and mass production', 'Orders for retailers, designers, contractors and hospitality businesses, made in our factory.', 'Bulk / mass production', 'Request a bulk quote'],
 ]
-const CATEGORIES = ['Beds', 'Sofas and seating', 'Dining tables and chairs', 'Wardrobes and storage', 'Office furniture', 'Mandir']
-const STEPS = [
+// [label, service page slug]
+const CATEGORIES = [['Beds', 'custom-furniture-vadodara'], ['Sofas and seating', 'custom-furniture-vadodara'], ['Dining tables and chairs', 'custom-furniture-vadodara'], ['Wardrobes and storage', 'wardrobes-vadodara'], ['Office furniture', 'office-furniture-vadodara'], ['Mandir', 'mandir-design-vadodara']]
+export const STEPS = [
   ['Enquiry', 'Tell us everything you need. We start with a visit to your site to see the space.'],
   ['Specifications', 'We go through what you need: sizes, finishes, requirements and your preferences.'],
   ['Production', 'Work is done on site, with some pieces made in our factory. We provide the materials and workers, taking your order from scratch to a ready product.'], ['Delivery or pickup', 'We deliver across Vadodara and all over Gujarat, or you can pick up your order from our factory. Best-quality home furnishing at affordable prices.']]
@@ -42,7 +44,7 @@ export const FAQ = [
   ['How do I get a quote?', 'Call or WhatsApp us on +91 97245 16312, or send an enquiry through the form on this page. We are open Monday to Saturday, 9:00 AM to 6:00 PM.'],
 ]
 
-function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
+export function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   const ref = useRef(null)
   const [on, setOn] = useState(false)
   useEffect(() => {
@@ -54,7 +56,7 @@ function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   return <Tag ref={ref} className={`reveal ${on ? 'in' : ''} ${className}`} {...rest}>{children}</Tag>
 }
 
-const Photo = ({ label, className = '', showLabel = true, image: imageOverride, eager = false, alt }) => {
+export const Photo = ({ label, className = '', showLabel = true, image: imageOverride, eager = false, alt }) => {
   const image = imageOverride || (
     /furniture or workshop/i.test(label)
       ? heroImg
@@ -91,7 +93,7 @@ const Photo = ({ label, className = '', showLabel = true, image: imageOverride, 
     </div>
   )
 }
-function Header({ pickType }) {
+export function Header({ pickType, base = '' }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -104,10 +106,10 @@ function Header({ pickType }) {
   return (
     <header className={`header ${scrolled ? 'solid' : ''}`}>
       <a className="skip" href="#main">Skip to content</a>
-      <a className="brand" href="#home">{B.name}</a>
+      <a className="brand" href={`${base}#home`}>{B.name}</a>
       <button className="menu-btn" aria-expanded={open} aria-controls="nav" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'}</button>
       <nav id="nav" className={open ? 'open' : ''} aria-label="Main">
-        {NAV.map(([id, l]) => <a key={id} href={`#${id}`} onClick={() => setOpen(false)}>{l}</a>)}
+        {NAV.map(([id, l]) => <a key={id} href={id === 'contact' ? '#contact' : `${base}#${id}`} onClick={() => setOpen(false)}>{l}</a>)}
         <a className="btn" href="#contact" onClick={() => { pickType(''); setOpen(false) }}>Request a Quote</a>
       </nav>
     </header>
@@ -125,7 +127,7 @@ function Field({ k, label, err, ...p }) {
   )
 }
 
-function Footer({ type, setType }) {
+export function Footer({ type, setType, base = '' }) {
   const empty = { name: '', phone: '', email: '', location: '', message: '', referenceLink: '', hpField: '' }
   const [f, setF] = useState(empty)
   const [errs, setErrs] = useState({})
@@ -181,7 +183,11 @@ function Footer({ type, setType }) {
           </div>
         </form>
       </div>
-      <p className="wrap legal">© {new Date().getFullYear()} {B.name}. {NAV.map(([id, l]) => <a key={id} href={`#${id}`}>{l}</a>)}</p>
+      <nav className="wrap foot-services" aria-label="Our services">
+        <h2>Our services in {B.city}</h2>
+        <ul>{SERVICE_PAGES.map((s) => <li key={s.slug}><a href={`/${s.slug}`}>{s.name}</a></li>)}</ul>
+      </nav>
+      <p className="wrap legal">© {new Date().getFullYear()} {B.name}. {NAV.map(([id, l]) => <a key={id} href={id === 'contact' ? '#contact' : `${base}#${id}`}>{l}</a>)}</p>
     </footer>
   )
 }
@@ -232,7 +238,7 @@ export default function App() {
           <div className="wrap">
             <Reveal as="h2">Furniture we make</Reveal>
             <Reveal as="p" className="lead">From home and office furniture to complete interior furnishing, we create pieces in a range of sizes and designs. Explore our furniture categories, or talk to us about interior design, industrial furnishing and bulk orders. Share your requirements and we’ll discuss a design and solution for your space.</Reveal>
-            <Reveal className="cats">{CATEGORIES.map((c) => <Photo key={c} label={c} />)}</Reveal>
+            <Reveal className="cats">{CATEGORIES.map(([c, slug]) => <a key={c} className="cat-link" href={`/${slug}`}><Photo label={c} /></a>)}</Reveal>
           </div>
         </section>
 

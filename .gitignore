@@ -4,3 +4,5 @@ dist
 .env.*
 !.env.example
 dist-ssr
+# never commit account recovery codes or similar secrets
+*recovery-codes*
