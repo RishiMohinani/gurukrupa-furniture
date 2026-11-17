@@ -7,11 +7,11 @@ import diningTables from '../Assets/dining-tables.webp'
 import officeFurniture from '../Assets/office-furniture.webp'
 import wardrobe from '../Assets/wardrobe.webp'
 import heroImg from '../Assets/hero-img.webp'
-import sample1 from '../Assets/Sample 1.jpg'
-import sample2 from '../Assets/Sample 2.jpg'
-import sample3 from '../Assets/Sample 3.jpg'
-import sample4 from '../Assets/Sample 4.jpg'
-import sample5 from '../Assets/Sample 5.jpg'
+import tvCabinet from '../Assets/TV-Cabinet.jpg'
+import sofaSet from '../Assets/Sofa-set.jpg'
+import bedroomDesign from '../Assets/Bedroom-design.jpg'
+import kitchenDesign from '../Assets/kitchen-design.jpg'
+import mandirDesign from '../Assets/mandir-design.jpg'
 
 // Edit these. Leave phone/email empty until confirmed; buttons stay inactive until set.
 // Phone: digits with country code, e.g. "919876543210".
@@ -264,15 +264,15 @@ export default function App() {
         <section id="gallery" className="sec sand">
           <div className="wrap">
             <Reveal as="h2">Selected work</Reveal>
-            <Reveal as="p" className="lead">These are sample images. Replace them with photos of your own work.</Reveal>
+            <Reveal as="p" className="lead">A few of the homes and pieces we have designed and made in Vadodara.</Reveal>
             <Reveal className="gallery">
               {[
-                ['Sample 1', sample1],
-                ['Sample 2', sample2],
-                ['Sample 3', sample3],
-                ['Sample 4', sample4],
-                ['Sample 5', sample5],
-              ].map(([label, image]) => <Photo key={label} label={label} image={image} />)}
+                ['TV cabinet', tvCabinet],
+                ['Sofa set', sofaSet],
+                ['Bedroom design', bedroomDesign],
+                ['Kitchen design', kitchenDesign],
+                ['Mandir design', mandirDesign],
+              ].map(([label, image]) => <Photo key={label} label={label} image={image} alt={`${label} by ${B.name}, ${B.city}`} />)}
             </Reveal>
           </div>
         </section>
