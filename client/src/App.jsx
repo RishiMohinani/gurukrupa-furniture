@@ -219,7 +219,7 @@ export default function App() {
         <section id="furniture" className="sec sand">
           <div className="wrap">
             <Reveal as="h2">Furniture we make</Reveal>
-            <Reveal as="p" className="lead">Edit this list to match your actual range. Add sizes, materials and finishes only once confirmed.</Reveal>
+            <Reveal as="p" className="lead">From home and office furniture to complete interior furnishing, we create pieces in a range of sizes and designs. Explore our furniture categories, or talk to us about interior design, industrial furnishing and bulk orders. Share your requirements and we’ll discuss a design and solution for your space.</Reveal>
             <Reveal className="cats">{CATEGORIES.map((c) => <Photo key={c} label={c} />)}</Reveal>
           </div>
         </section>
