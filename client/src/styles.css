@@ -1,3 +1,5 @@
+@font-face{font-family:'Figtree';font-style:normal;font-weight:300 900;font-display:swap;src:url(/fonts/figtree-latin.woff2) format('woff2')}
+@font-face{font-family:'Young Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/young-serif-latin.woff2) format('woff2')}
 :root{--cream:#FAF6F0;--sand:#EFE6D8;--oak:#C49A6C;--walnut:#5A3D2B;--char:#24201D;--char2:#3A3430;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
