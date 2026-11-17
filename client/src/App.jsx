@@ -22,7 +22,7 @@ const TYPES = ['Retail furniture', 'Custom home furnishing', 'Bulk / mass produc
 
 const NAV = [['home', 'Home'], ['furniture', 'Furniture'], ['custom', 'Custom Orders'], ['manufacturing', 'Manufacturing'], ['about', 'About'], ['contact', 'Contact']]
 const SERVICES = [
-  ['Retail furniture orders', 'Buy finished pieces for your home or shop. [ADD RANGE AND HOW TO ORDER]', 'Retail furniture', 'Ask about a piece'],
+  ['Retail furniture orders', 'Buy furniture for your home, or order a single piece made to suit your needs. We make centre tables, dressing tables, wardrobes, kitchen furniture, sofas, computer tables, TV cabinets, dining tables and more. Contact us to discuss your design, size and requirements.', 'Retail furniture', 'Ask about a piece'],
   ['Custom home furnishing', 'Tell us the room and the style you want, and we will discuss what can be made.', 'Custom home furnishing', 'Plan my home'],
   ['Bulk and mass production', 'Orders for retailers, designers, contractors and hospitality businesses, made in our factory.', 'Bulk / mass production', 'Request a bulk quote'],
 ]
