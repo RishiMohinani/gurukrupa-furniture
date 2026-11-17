@@ -27,7 +27,7 @@ const SERVICES = [
   ['Bulk and mass production', 'Orders for retailers, designers, contractors and hospitality businesses, made in our factory.', 'Bulk / mass production', 'Request a bulk quote'],
 ]
 const CATEGORIES = ['Beds', 'Sofas and seating', 'Dining tables and chairs', 'Wardrobes and storage', 'Office furniture', 'Mandir']
-const STEPS = [['Enquiry', 'You tell us what you need.'], ['Specifications', 'We confirm sizes, materials and finishes.'], ['Production', 'Your order is made in our factory.'], ['Delivery or pickup', '[ADD DELIVERY DETAILS]']]
+const STEPS = [['Enquiry', 'You tell us what you need.'], ['Specifications', 'We confirm sizes, materials and finishes.'], ['Production', 'Your order is made in our factory.'], ['Delivery or pickup', 'We deliver across Vadodara and all over Gujarat, or you can pick up your order from our factory. Best-quality home furnishing at affordable prices.']]
 const HELP = ['Room type', 'Approximate dimensions', 'Preferred style', 'Reference photos or links']
 
 function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
