@@ -7,15 +7,15 @@ import diningTables from '../Assets/dining-tables.webp'
 import officeFurniture from '../Assets/office-furniture.webp'
 import wardrobe from '../Assets/wardrobe.webp'
 import heroImg from '../Assets/hero-img.webp'
-import tvCabinet from '../Assets/TV-Cabinet.jpg'
-import sofaSet from '../Assets/Sofa-set.jpg'
-import bedroomDesign from '../Assets/Bedroom-design.jpg'
-import kitchenDesign from '../Assets/kitchen-design.jpg'
-import mandirDesign from '../Assets/mandir-design.jpg'
+import tvCabinet from '../Assets/TV-Cabinet.webp'
+import sofaSet from '../Assets/Sofa-set.webp'
+import bedroomDesign from '../Assets/Bedroom-design.webp'
+import kitchenDesign from '../Assets/kitchen-design.webp'
+import mandirDesign from '../Assets/mandir-design.webp'
 
 // Edit these. Leave phone/email empty until confirmed; buttons stay inactive until set.
 // Phone: digits with country code, e.g. "919876543210".
-const B = { name: 'Gurukrupa Furniture', city: 'Vadodara', phone: '919724516312', email: 'mohinanirishi7@gmail.com', address: 'Shop no.10, Kubereshwar Compund nr Vasvani Estate, suvez Pumping road, Road, Gajarawadi, Vadodara, Gujarat 390004', hours: 'Monday to Saturday 9:00 AM to 6:00 PM (Sunday Closed)' }
+const B = { name: 'Gurukrupa Furniture', city: 'Vadodara', phone: '919724516312', email: 'mohinanirishi7@gmail.com', address: 'Shop No. 10, Kubereshwar Compound, near Vasvani Estate, Suvez Pumping Road, Gajarawadi, Vadodara, Gujarat 390004', hours: 'Monday to Saturday 9:00 AM to 6:00 PM (Sunday Closed)' }
 const digits = B.phone.replace(/\D/g, '')
 const apiBaseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 const TYPES = ['Retail furniture', 'Custom home furnishing', 'Bulk / mass production', 'Other']
@@ -32,6 +32,15 @@ const STEPS = [
   ['Specifications', 'We go through what you need: sizes, finishes, requirements and your preferences.'],
   ['Production', 'Work is done on site, with some pieces made in our factory. We provide the materials and workers, taking your order from scratch to a ready product.'], ['Delivery or pickup', 'We deliver across Vadodara and all over Gujarat, or you can pick up your order from our factory. Best-quality home furnishing at affordable prices.']]
 const HELP = ['Room type', 'Approximate dimensions', 'Preferred style', 'Reference photos or links']
+// Shown on the page and, via scripts/prerender.mjs, as FAQPage data for Google. Keep answers factual.
+export const FAQ = [
+  ['Do you deliver outside Vadodara?', 'Yes. We deliver across Vadodara and all over Gujarat. You can also pick up your order from our factory.'],
+  ['Do you visit the site before starting work?', 'Yes. Every project starts with a visit to your site so we can see the space and understand what you need.'],
+  ['Can you make furniture to my size and design?', 'Yes. We make furniture to your dimensions, finishes and preferences, from a single piece to a complete home or office.'],
+  ['Do you provide the materials and workers?', 'Yes. We provide the materials and workers and take your order from scratch to a ready product. Work is done on site, with some pieces made in our factory.'],
+  ['Do you take bulk orders?', 'Yes. We handle bulk and mass production for homes, offices, industrial spaces, retailers, designers and contractors.'],
+  ['How do I get a quote?', 'Call or WhatsApp us on +91 97245 16312, or send an enquiry through the form on this page. We are open Monday to Saturday, 9:00 AM to 6:00 PM.'],
+]
 
 function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   const ref = useRef(null)
@@ -273,6 +282,17 @@ export default function App() {
                 ['Kitchen design', kitchenDesign],
                 ['Mandir design', mandirDesign],
               ].map(([label, image]) => <Photo key={label} label={label} image={image} alt={`${label} by ${B.name}, ${B.city}`} />)}
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="faq" className="sec">
+          <div className="wrap">
+            <Reveal as="h2">Frequently asked questions</Reveal>
+            <Reveal className="faq">
+              {FAQ.map(([q, a]) => (
+                <details key={q}><summary>{q}</summary><p>{a}</p></details>
+              ))}
             </Reveal>
           </div>
         </section>

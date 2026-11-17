@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './styles.css'
 
@@ -15,4 +15,7 @@ if (gaId) {
   document.head.appendChild(s)
 }
 
-createRoot(document.getElementById('root')).render(<App />)
+const rootEl = document.getElementById('root')
+// The build pre-renders the page into #root; hydrate it. Fall back to a fresh render in dev.
+if (rootEl.hasChildNodes()) hydrateRoot(rootEl, <App />)
+else createRoot(rootEl).render(<App />)

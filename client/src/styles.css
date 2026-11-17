@@ -72,3 +72,11 @@ input[aria-invalid=true],select[aria-invalid=true]{border-color:#ff9f8f}
  .reveal,.hero-in{opacity:1;transform:none}.photo:hover{transform:none}
 }
 .story p+p{margin-top:1rem}
+.faq{max-width:52rem;margin-top:2rem;border-top:1px solid #d9cfc3}
+.faq details{border-bottom:1px solid #d9cfc3}
+.faq summary{cursor:pointer;padding:1.1rem 2rem 1.1rem 0;font-weight:600;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:.25rem;top:50%;transform:translateY(-50%);font-size:1.4rem;font-weight:400;color:var(--walnut)}
+.faq details[open] summary::after{content:'–'}
+.faq summary:focus-visible{outline:2px solid var(--walnut);outline-offset:2px}
+.faq details p{padding:0 0 1.2rem;color:var(--char2);max-width:44rem}
