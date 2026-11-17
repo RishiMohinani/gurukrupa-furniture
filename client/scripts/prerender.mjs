@@ -13,8 +13,16 @@ const dist = path.join(root, 'dist')
 const ssrDir = path.join(root, 'dist-ssr')
 
 const { renderHome, renderService, FAQ, SERVICE_PAGES } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href)
-const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
+let template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
 if (!template.includes('<div id="root"></div>')) throw new Error('prerender: #root placeholder not found in dist/index.html')
+
+// Inline the site's small stylesheet (~3 KB gzipped) so it does not block the first paint
+// as a separate request. The CSS file stays in dist/assets for anything that references it.
+template = template.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => {
+  const css = fs.readFileSync(path.join(dist, href), 'utf8')
+  return `<style>${css.replace(/<\/style/gi, '<\\/style')}</style>`
+})
+if (/<link rel="stylesheet" crossorigin href="\/assets\//.test(template)) throw new Error('prerender: stylesheet was not inlined')
 
 const attr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 const ld = (obj) => `    <script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>\n`
