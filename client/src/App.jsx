@@ -241,7 +241,7 @@ export default function App() {
         <section id="manufacturing" className="sec dark">
           <div className="wrap">
             <Reveal as="h2">Made in our factory</Reveal>
-            <Reveal as="p" className="lead">We make our own furniture, which lets us take on larger orders as well as single pieces. [ADD FACTORY DETAILS]</Reveal>
+            <Reveal as="p" className="lead">Based in Vadodara, Gurukrupa Furniture makes custom furniture and furnishings for homes, offices and industrial spaces. We handle individual pieces as well as bulk orders. Share your design, dimensions and quantity, and we’ll discuss the specifications and production for your project.</Reveal>
             <Reveal as="ol" className="steps">
               {STEPS.map(([t, d]) => <li key={t}><h3>{t}</h3><p>{d}</p></li>)}
             </Reveal>
