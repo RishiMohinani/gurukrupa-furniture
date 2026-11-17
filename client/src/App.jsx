@@ -207,12 +207,12 @@ export default function App() {
                 to bring considered spaces to life.</p>
               <p className="hero-in cta" style={{ '--i': 2 }}>
                 <a className="btn" href="#contact" onClick={() => setType('')}>Request a Quote</a>
-                <a className="btn ghost dark" href="#gallery">Explore Our Work</a>
+                <a className="btn ghost dark" href="#gallery">See Design Ideas</a>
               </p>
             </div>
             <Photo
               label="Furniture or workshop photo"
-              alt={`Furniture made by ${B.name} in ${B.city}`}
+              alt="Living and dining room design with a wooden dining table, upholstered chairs and lit display shelves"
               eager
               className="tall hero-in"
               showLabel={false}
@@ -278,16 +278,17 @@ export default function App() {
 
         <section id="gallery" className="sec sand">
           <div className="wrap">
-            <Reveal as="h2">Selected work</Reveal>
-            <Reveal as="p" className="lead">A few of the homes and pieces we have designed and made in Vadodara.</Reveal>
+            <Reveal as="h2">Design ideas we can make for you</Reveal>
+            <Reveal as="p" className="lead">Looking for inspiration? These are the kinds of designs we can make to fit your space. Like one of them, or have a photo of your own? Share it with us and we will discuss making it for your home.</Reveal>
             <Reveal className="gallery">
+              {/* Inspiration images, not photos of our completed projects. Keep labels descriptive, not "made by us". */}
               {[
-                ['TV cabinet', tvCabinet],
-                ['Sofa set', sofaSet],
-                ['Bedroom design', bedroomDesign],
-                ['Kitchen design', kitchenDesign],
-                ['Mandir design', mandirDesign],
-              ].map(([label, image]) => <Photo key={label} label={label} image={image} alt={`${label} by ${B.name}, ${B.city}`} />)}
+                ['TV unit with lit display shelves', tvCabinet, 'Wall-mounted TV unit design with fluted wood panelling, a marble-finish back panel, lit display shelves and a drawer console'],
+                ['L-shaped sofa set', sofaSet, 'Living room design with a grey L-shaped sofa, round wooden coffee table and panelled wall'],
+                ['Bedroom with upholstered headboard', bedroomDesign, 'Bedroom design with an upholstered headboard, fluted wall panel, backlit wall art, side tables and a full-length mirror'],
+                ['L-shaped kitchen', kitchenDesign, 'L-shaped kitchen design with glossy cabinets, glass-front overhead units and a built-in microwave unit'],
+                ['Pooja room with backlit Om panel', mandirDesign, 'Pooja room design with wood-finish side panels, a backlit Om jali panel and a cabinet with drawers below'],
+              ].map(([label, image, alt]) => <Photo key={label} label={label} image={image} alt={alt} />)}
             </Reveal>
           </div>
         </section>
