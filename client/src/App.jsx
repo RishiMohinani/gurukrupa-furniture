@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import livingRoom from '../Assets/living-room.webp'
-import bedroom from '../Assets/bedroom.webp'
-import mandir from '../Assets/mandir.webp'
-import kitchen from '../Assets/kitchen.webp'
-import diningTables from '../Assets/dining-tables.webp'
-import officeFurniture from '../Assets/office-furniture.webp'
-import wardrobe from '../Assets/wardrobe.webp'
-import heroImg from '../Assets/hero-img.webp'
-import tvCabinet from '../Assets/TV-Cabinet.webp'
-import sofaSet from '../Assets/Sofa-set.webp'
-import bedroomDesign from '../Assets/Bedroom-design.webp'
-import kitchenDesign from '../Assets/kitchen-design.webp'
-import mandirDesign from '../Assets/mandir-design.webp'
+import { img } from './img.js'
 import { SERVICE_PAGES } from './services.js'
+const livingRoom = img('living-room')
+const bedroom = img('bedroom')
+const mandir = img('mandir')
+const kitchen = img('kitchen')
+const diningTables = img('dining-tables')
+const officeFurniture = img('office-furniture')
+const wardrobe = img('wardrobe')
+const heroImg = img('hero-img')
+const tvCabinet = img('TV-Cabinet')
+const sofaSet = img('Sofa-set')
+const bedroomDesign = img('Bedroom-design')
+const kitchenDesign = img('kitchen-design')
+const mandirDesign = img('mandir-design')
 
 // Edit these. Leave phone/email empty until confirmed; buttons stay inactive until set.
 // Phone: digits with country code, e.g. "919876543210".
@@ -56,7 +57,9 @@ export function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   return <Tag ref={ref} className={`reveal ${on ? 'in' : ''} ${className}`} {...rest}>{children}</Tag>
 }
 
-export const Photo = ({ label, className = '', showLabel = true, image: imageOverride, eager = false, alt }) => {
+// image is { src, srcSet } from img(). 'sizes' tells the browser how wide the photo is shown so it
+// downloads the smallest file that fits. With a visible label and no alt, the image is decorative.
+export const Photo = ({ label, className = '', showLabel = true, image: imageOverride, eager = false, alt, sizes = '(max-width: 860px) 50vw, 33vw' }) => {
   const image = imageOverride || (
     /furniture or workshop/i.test(label)
       ? heroImg
@@ -78,8 +81,10 @@ export const Photo = ({ label, className = '', showLabel = true, image: imageOve
   return (
     <div className={`photo ${className}`}>
       <img
-        src={image}
-        alt={alt || label}
+        src={image.src}
+        srcSet={image.srcSet}
+        sizes={sizes}
+        alt={alt ?? (showLabel ? '' : label)}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         {...(eager ? { fetchpriority: 'high' } : {})}
@@ -214,6 +219,7 @@ export default function App() {
               label="Furniture or workshop photo"
               alt="Living and dining room design with a wooden dining table, upholstered chairs and lit display shelves"
               eager
+              sizes="(max-width: 860px) calc(100vw - 32px), 45vw"
               className="tall hero-in"
               showLabel={false}
             />

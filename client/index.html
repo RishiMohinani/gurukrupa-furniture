@@ -26,7 +26,9 @@
     <link rel="icon" type="image/png" href="/Assets/Logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet" />
+    <!-- Load fonts without blocking the first paint; text shows in a fallback font until they arrive. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" /></noscript>
     <!-- Business details for Google (keep in sync with the B object in src/App.jsx). -->
     <script type="application/ld+json">
     {

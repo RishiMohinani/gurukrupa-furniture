@@ -23,7 +23,7 @@ export default function ServicePage({ page }) {
                 <a className="btn ghost dark" href={tel}>Call {B.name}</a>
               </p>
             </div>
-            <Photo image={page.image} label={page.name} alt={page.alt} eager className="tall hero-in" showLabel={false} />
+            <Photo image={page.image} label={page.name} alt={page.alt} eager sizes="(max-width: 860px) calc(100vw - 32px), 45vw" className="tall hero-in" showLabel={false} />
           </div>
         </section>
 

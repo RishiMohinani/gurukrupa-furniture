@@ -91,3 +91,5 @@ input[aria-invalid=true],select[aria-invalid=true]{border-color:#ff9f8f}
 .more-links{list-style:none;padding:0;margin-top:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:.75rem}
 .more-links a{display:block;padding:.9rem 1rem;border:1px solid #d9cfc3;border-radius:4px;color:var(--char);text-decoration:none;background:var(--cream);font-weight:500}
 .more-links a:hover{border-color:var(--walnut);color:var(--walnut)}
+/* Show the hero photo immediately: it is usually the largest element, so fading it in delays LCP. */
+.hero .photo.hero-in{opacity:1;transform:none;animation:none}

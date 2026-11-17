@@ -1,13 +1,14 @@
 // Service landing pages. Each entry becomes its own pre-rendered page at /<slug>
 // with its own title, description and FAQ (see scripts/prerender.mjs).
 // Keep claims factual: only things the business has confirmed.
-import livingRoom from '../Assets/living-room.webp'
-import kitchenDesign from '../Assets/kitchen-design.webp'
-import wardrobe from '../Assets/wardrobe.webp'
-import mandirDesign from '../Assets/mandir-design.webp'
-import tvCabinet from '../Assets/TV-Cabinet.webp'
-import officeFurniture from '../Assets/office-furniture.webp'
-import bedroomDesign from '../Assets/Bedroom-design.webp'
+import { img } from './img.js'
+const livingRoom = img('living-room')
+const kitchenDesign = img('kitchen-design')
+const wardrobe = img('wardrobe')
+const mandirDesign = img('mandir-design')
+const tvCabinet = img('TV-Cabinet')
+const officeFurniture = img('office-furniture')
+const bedroomDesign = img('Bedroom-design')
 
 const DELIVERY = ['Do you deliver outside Vadodara?', 'Yes. We deliver across Vadodara and all over Gujarat. You can also pick up your order from our factory.']
 const SITE_VISIT = ['Do you visit the site before starting?', 'Yes. Every project starts with a visit to your site so we can see the space, take measurements and understand what you need.']
