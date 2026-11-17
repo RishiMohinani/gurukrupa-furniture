@@ -25,9 +25,11 @@ Deploy the frontend to Vercel and the API as a Render Web Service.
 
 ## Connect Vercel to Render
 
-In Vercel project settings, add `VITE_API_URL` with the Render service's base
-URL, e.g. `https://your-render-service.onrender.com` (no trailing slash). Apply
-it to Production and redeploy; Vite embeds this value at build time.
+`client/vercel.json` rewrites `/api/*` on the Vercel site to the Render service
+(`https://gurukrupa-furniture.onrender.com`). The browser only talks to Vercel,
+so no `VITE_API_URL` or CORS setup is needed. If the Render URL changes, update
+the rewrite destination. Leave `VITE_API_URL` unset; if it is set, the browser
+calls Render directly and `CLIENT_ORIGIN` on Render must list the Vercel origin.
 
 Do not commit `server/.env` or paste its secrets into source files. Set
 production secrets in Render's environment settings. For local development,
