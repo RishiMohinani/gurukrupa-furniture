@@ -18,6 +18,11 @@ Deploy the frontend to Vercel and the API as a Render Web Service.
    - `CLIENT_ORIGIN`: the exact Vercel production origin, e.g.
      `https://your-project.vercel.app`. Separate multiple origins with commas.
    - `NODE_ENV`: `production`.
+   - Optional email alerts for each enquiry: `RESEND_API_KEY` (from
+     resend.com → API Keys) and `NOTIFY_EMAIL` (where to send them; comma-separate
+     several). Without a verified domain, Resend only delivers to the email you
+     signed up with. After verifying a domain, set `MAIL_FROM`, e.g.
+     `Gurukrupa Website <enquiries@your-domain.com>`.
 4. Deploy and confirm `https://your-render-service.onrender.com/api/health`
    returns `{"ok":true}`. Render provides the `PORT` variable automatically.
    The Render service is API-only, so its root URL may return 404; the website

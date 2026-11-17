@@ -30,6 +30,41 @@ const Enquiry = mongoose.model(
   'Inquiry'
 )
 
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+
+// Emails each saved enquiry via Resend's HTTP API (SMTP ports are blocked on Render's free plan).
+// Needs RESEND_API_KEY and NOTIFY_EMAIL; silently skipped when they are not set.
+async function notifyByEmail(e) {
+  const { RESEND_API_KEY: key, NOTIFY_EMAIL: to } = process.env
+  if (!key || !to) return
+  const rows = [
+    ['Name', e.name], ['Phone', e.phone], ['Email', e.email], ['Enquiry type', e.type],
+    ['Location', e.location], ['Message', e.message], ['Reference link', e.referenceLink],
+  ].filter(([, v]) => v)
+  const html = `<h2>New enquiry from the website</h2><table cellpadding="6" style="border-collapse:collapse">${
+    rows.map(([k, v]) => `<tr><th align="left" valign="top">${k}</th><td style="white-space:pre-wrap">${esc(v)}</td></tr>`).join('')
+  }</table>`
+  const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n')
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.MAIL_FROM || 'Gurukrupa Website <onboarding@resend.dev>',
+        to: to.split(',').map((s) => s.trim()).filter(Boolean),
+        subject: `New enquiry: ${e.name} (${e.type})`,
+        html,
+        text,
+        ...(e.email ? { reply_to: e.email } : {}),
+      }),
+    })
+    if (!r.ok) console.error('Email notification failed:', r.status, await r.text())
+    else console.log('Email notification sent for', e._id.toString())
+  } catch (err) {
+    console.error('Email notification failed:', err.message)
+  }
+}
+
 const app = express()
 app.use(express.json({ limit: '20kb' }))
 const clientOrigins = process.env.CLIENT_ORIGIN
@@ -63,6 +98,7 @@ app.post(
       const doc = await Enquiry.create({ name, phone, email, type, location, message, referenceLink })
       console.log('Saved enquiry', doc._id.toString(), 'in database', mongoose.connection.name)
       res.status(201).json({ ok: true })
+      notifyByEmail(doc) // after responding, so the visitor never waits on (or sees) email problems
     } catch (e) {
       console.error('Save failed:', e.message)
       res.status(500).json({ ok: false, error: 'Could not save your enquiry.' })
