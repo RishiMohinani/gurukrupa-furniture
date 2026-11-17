@@ -66,6 +66,9 @@ async function notifyByEmail(e) {
 }
 
 const app = express()
+// Requests arrive via Vercel's /api rewrite and Render's proxy. Trust X-Forwarded-For so
+// req.ip is the visitor's IP; otherwise the rate limiter would lump all visitors together.
+app.set('trust proxy', true)
 app.use(express.json({ limit: '20kb' }))
 const clientOrigins = process.env.CLIENT_ORIGIN
   ? process.env.CLIENT_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
@@ -76,7 +79,7 @@ app.get('/api/health', (_req, res) => res.json({ ok: true }))
 
 app.post(
   '/api/enquiries',
-  rateLimit({ windowMs: 15 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false }),
+  rateLimit({ windowMs: 15 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false, validate: { trustProxy: false } }),
   async (req, res) => {
     const b = req.body || {}
     if (b.hpField) {
