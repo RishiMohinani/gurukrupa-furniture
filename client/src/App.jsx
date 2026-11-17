@@ -99,6 +99,17 @@ function Header({ pickType }) {
   )
 }
 
+// Defined at module level so its identity is stable across renders;
+// defining it inside Footer remounted the input on every keystroke and dropped focus.
+function Field({ k, label, err, ...p }) {
+  return (
+    <label className="field">{label}
+      <input aria-invalid={!!err} aria-describedby={err ? `${k}-e` : undefined} {...p} />
+      {err && <span className="err" id={`${k}-e`}>{err}</span>}
+    </label>
+  )
+}
+
 function Footer({ type, setType }) {
   const empty = { name: '', phone: '', email: '', location: '', message: '', referenceLink: '', hpField: '' }
   const [f, setF] = useState(empty)
@@ -116,12 +127,7 @@ function Footer({ type, setType }) {
   }
   const tel = digits ? `tel:+${digits}` : undefined
   const wa = digits ? `https://wa.me/${digits}` : undefined
-  const Field = ({ k, label, err, ...p }) => (
-    <label className="field">{label}
-      <input value={f[k]} onChange={set(k)} aria-invalid={!!err} aria-describedby={err ? `${k}-e` : undefined} {...p} />
-      {err && <span className="err" id={`${k}-e`}>{err}</span>}
-    </label>
-  )
+  const fieldProps = (k) => ({ k, value: f[k], onChange: set(k) })
   return (
     <footer id="contact" className="footer">
       <div className="wrap foot-grid">
@@ -138,20 +144,20 @@ function Footer({ type, setType }) {
           </address>
         </Reveal>
         <form onSubmit={submit} noValidate aria-label="Request a quote">
-          <Field k="name" label="Your name" err={errs.name} required autoComplete="name" />
-          <Field k="phone" label="Phone" err={errs.contact} type="tel" autoComplete="tel" />
-          <Field k="email" label="Email" err={errs.email} type="email" autoComplete="email" />
+          <Field {...fieldProps('name')} label="Your name" err={errs.name} required autoComplete="name" />
+          <Field {...fieldProps('phone')} label="Phone" err={errs.contact} type="tel" autoComplete="tel" />
+          <Field {...fieldProps('email')} label="Email" err={errs.email} type="email" autoComplete="email" />
           <label className="field">Enquiry type
             <select value={type} onChange={(e) => setType(e.target.value)} aria-invalid={!!errs.type}>
               <option value="">Choose one</option>{TYPES.map((t) => <option key={t}>{t}</option>)}
             </select>
             {errs.type && <span className="err">{errs.type}</span>}
           </label>
-          <Field k="location" label="Your location" autoComplete="address-level2" />
+          <Field {...fieldProps('location')} label="Your location" autoComplete="address-level2" />
           <label className="field">Message
             <textarea rows="4" value={f.message} onChange={set('message')} maxLength="2000" />
           </label>
-          <Field k="referenceLink" label="Reference photo link (optional)" err={errs.referenceLink} type="url" />
+          <Field {...fieldProps('referenceLink')} label="Reference photo link (optional)" err={errs.referenceLink} type="url" />
           <input className="hp" tabIndex="-1" autoComplete="off" aria-hidden="true" value={f.hpField} onChange={set('hpField')} name="hpField" />
           <button className="btn light" disabled={status === 'sending'}>{status === 'sending' ? 'Sending…' : 'Send enquiry'}</button>
           <div role="status" aria-live="polite">
