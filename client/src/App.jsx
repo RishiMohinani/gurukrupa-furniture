@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import livingRoom from '../Assets/living-room.png'
-import bedroom from '../Assets/bedroom.png'
-import mandir from '../Assets/mandir.png'
-import kitchen from '../Assets/kitchen.png'
-import diningTables from '../Assets/dining-tables.png'
-import officeFurniture from '../Assets/office-furniture.png'
-import wardrobe from '../Assets/wardrobe.png'
-import heroImg from '../Assets/hero-img.png'
+import livingRoom from '../Assets/living-room.webp'
+import bedroom from '../Assets/bedroom.webp'
+import mandir from '../Assets/mandir.webp'
+import kitchen from '../Assets/kitchen.webp'
+import diningTables from '../Assets/dining-tables.webp'
+import officeFurniture from '../Assets/office-furniture.webp'
+import wardrobe from '../Assets/wardrobe.webp'
+import heroImg from '../Assets/hero-img.webp'
 import sample1 from '../Assets/Sample 1.jpg'
 import sample2 from '../Assets/Sample 2.jpg'
 import sample3 from '../Assets/Sample 3.jpg'
@@ -42,7 +42,7 @@ function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   return <Tag ref={ref} className={`reveal ${on ? 'in' : ''} ${className}`} {...rest}>{children}</Tag>
 }
 
-const Photo = ({ label, className = '', showLabel = true, image: imageOverride }) => {
+const Photo = ({ label, className = '', showLabel = true, image: imageOverride, eager = false, alt }) => {
   const image = imageOverride || (
     /furniture or workshop/i.test(label)
       ? heroImg
@@ -65,7 +65,10 @@ const Photo = ({ label, className = '', showLabel = true, image: imageOverride }
     <div className={`photo ${className}`}>
       <img
         src={image}
-        alt={label}
+        alt={alt || label}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        {...(eager ? { fetchpriority: 'high' } : {})}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
       {showLabel && (
@@ -121,7 +124,7 @@ function Footer({ type, setType }) {
     try {
       const r = await fetch(`${apiBaseUrl}/api/enquiries`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, type }) })
       const d = await r.json().catch(() => ({}))
-      if (r.ok) { setStatus('success'); setF(empty); return }
+      if (r.ok) { setStatus('success'); setF(empty); window.gtag?.('event', 'generate_lead', { enquiry_type: type }); return }
       setErrs(d.errors || {}); setStatus(d.errors ? 'idle' : 'error')
     } catch { setStatus('error') }
   }
@@ -191,6 +194,8 @@ export default function App() {
             </div>
             <Photo
               label="Furniture or workshop photo"
+              alt={`Furniture made by ${B.name} in ${B.city}`}
+              eager
               className="tall hero-in"
               showLabel={false}
             />
